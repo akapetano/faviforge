@@ -1,0 +1,61 @@
+{
+  "name": "faviforge",
+  "version": "0.1.0",
+  "description": "🔥 Generate favicons and app icons from SVG files with ease",
+  "keywords": [
+    "favicon",
+    "icons",
+    "svg",
+    "png",
+    "ico",
+    "nextjs",
+    "app-icons",
+    "image-generation",
+    "favicon-generator"
+  ],
+  "author": "Andrija Kapetanović <andrija.kapetanovic@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akapetano/faviforge.git"
+  },
+  "homepage": "https://github.com/akapetano/faviforge#readme",
+  "bugs": {
+    "url": "https://github.com/akapetano/faviforge/issues"
+  },
+  "bin": {
+    "faviforge": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "pnpm build",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "png-to-ico": "^2.1.8",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
