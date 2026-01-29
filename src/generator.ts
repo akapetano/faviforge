@@ -22,10 +22,20 @@ async function generateIconsFromSvg(
 
   for (const { name, size } of configs) {
     try {
-      await sharp(svgPath, { density })
+      const effectiveDensity =
+        size <= 16
+          ? density * 8 // 2400 DPI for 16x16
+          : size <= 32
+            ? density * 6 // 1800 DPI for 32x32
+            : size <= 64
+              ? density * 2 // 600 DPI for 64x64
+              : density;
+
+      await sharp(svgPath, { density: effectiveDensity })
         .resize(size, size, {
           fit: "contain",
           background: { r: 0, g: 0, b: 0, alpha: 0 },
+          kernel: size <= 64 ? sharp.kernel.lanczos3 : sharp.kernel.lanczos2,
         })
         .png()
         .toFile(join(outputDir, name));
@@ -46,7 +56,7 @@ async function generateFavicon(
   console.log("\n🎯 Generating favicon.ico...\n");
 
   try {
-    const png16 = await sharp(svgPath, { density })
+    const png16 = await sharp(svgPath, { density: density * 8 })
       .resize(16, 16, {
         fit: "contain",
         background: { r: 0, g: 0, b: 0, alpha: 0 },
@@ -54,7 +64,7 @@ async function generateFavicon(
       .png()
       .toBuffer();
 
-    const png32 = await sharp(svgPath, { density })
+    const png32 = await sharp(svgPath, { density: density * 6 })
       .resize(32, 32, {
         fit: "contain",
         background: { r: 0, g: 0, b: 0, alpha: 0 },
